@@ -1,0 +1,106 @@
+package helloworld;
+import java.io.*; 
+  
+public class FileMerge  { 
+    public static void main(String[] args) throws IOException { 
+    	
+    	// Checking arguments and number of them      	
+    	Validator.checkArgs(args);
+    	int numberOfInputs = Validator.getNumberOfInputs();
+    	
+    	int outputIndex = args.length-numberOfInputs-1;
+    	System.out.println(outputIndex);
+        // PrintWriter output = new PrintWriter(args[args.length-Validator.numberOfInputs-1]); 
+        /* PrintWriter tempOutput = new PrintWriter("tempOut.txt"); 
+        
+        for (int i = args.length-2; counter != 0; i--, counter--, tempCounter++) {
+        	
+        	BufferedReader input1 = new BufferedReader(new FileReader(args[i]));
+        	
+        	BufferedReader input2 = tempCounter%2 != 0 ? new BufferedReader(new FileReader("tempOut.txt")) 
+        											   : new BufferedReader(new FileReader(args[args.length-Validator.numberOfInputs-1]));
+        	PrintWriter output = tempCounter%2 != 0 ? new PrintWriter(args[args.length-Validator.numberOfInputs-1]) 
+        			: new PrintWriter("tempOut.txt"); 
+    	
+        	   String stringOfInput1 = input1.readLine(); 
+               String stringOfInput2 = input2.readLine();
+               
+               while ((stringOfInput1 != null) && (stringOfInput2 !=null)) {
+               	int intOfInput1 = Integer.parseInt(stringOfInput1);
+                   int intOfInput2 = Integer.parseInt(stringOfInput2);
+               	if (intOfInput1 < intOfInput2) {
+               		output.println(intOfInput1);
+               		stringOfInput1 = input1.readLine();
+               	}
+               	else {
+               		output.println(intOfInput2);
+               		stringOfInput2 = input2.readLine();
+               	}
+
+               }
+               while (stringOfInput1 != null) {
+               	output.println(Integer.parseInt(stringOfInput1));
+               	stringOfInput1 = input1.readLine();
+               }
+               while (stringOfInput2 !=null) {
+               	output.println(Integer.parseInt(stringOfInput2));
+               	stringOfInput2 = input1.readLine();
+               }
+		}
+              
+        
+       //  output.flush();
+        //output.close(); 
+          
+        System.out.println("Merged file1.txt and file2.txt into file3.txt"); */
+    } 
+}    
+    
+    
+
+
+    // Validation of input arguments
+class Validator {
+	
+	private static int numberOfInputs;
+	
+	// checking number and correctness of input arguments
+    public static void checkArgs(String[] args) {    	
+		if ((args.length < 3) || ((args.length == 3) && (args[0].equals("-a") || (args[0].contentEquals("-d")))))
+			closeCauseArgs();
+		
+		// check first argument (here can be ascending/descending or string/integer)
+		if (!args[0].equals("-a") && !args[0].equals("-d")) {
+			if (!args[0].equals("-s") && !args[0].equals("-i")) {
+				closeCauseArgs();
+			}
+			
+		// exclude possible repeating of s/i as 2nd arg (if its already on 1st arg i.e a/d not setted - ascending by default)
+			else if (args[1].equals("-s") || args[1].equals("-i"))
+				closeCauseArgs();
+		}
+		
+		// checking 2nd argument
+		else if (!args[1].equals("-s") && !args[1].equals("-i")) {
+			closeCauseArgs();
+		}
+		
+		// counting number of input files in cases with a/d and without it
+		if ((args[0].equals("-a"))||(args[0].equals("-d")))
+				numberOfInputs = args.length-3;
+		else
+				numberOfInputs = args.length-2;
+		}
+    
+    
+    // getter for number of inputs
+    public static int getNumberOfInputs() {
+		return numberOfInputs;
+	}
+
+	// Close app and give feedback if validation went wrong
+    private static void closeCauseArgs() {
+    	System.out.println("Input arguments are wrong, closing program. Please follow instruction and retry to run");
+        System.exit(0);
+    }
+}    
